@@ -3,4 +3,21 @@
     feature: lldp
     state: enabled
   when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Configure VPC on Core Switches
+  cisco.nxos.nxos_feature:
+    feature: vpc
+    state: enabled
+  when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Configure Interface VLAN on Core
+  cisco.nxos.nxos_feature:
+    feature: interface-vlan
+    state: enabled
+  when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')
     
+- name: Configure OSPF on Core
+  cisco.nxos.nxos_feature:
+    feature: ospf 
+    state: enabled
+  when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')

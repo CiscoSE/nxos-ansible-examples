@@ -7,3 +7,5 @@
     import_tasks: tasks/task-backupConfig.yaml
   - name: Install Features for Core Switches
     import_tasks: tasks/task-FeaturesCore.yaml
+  - name: Install Features for Edge Switches
+    import_tasks: tasks/task-FeaturesEdge.yaml

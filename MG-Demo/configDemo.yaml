@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: false
+
+  tasks:
+  - name: Backup current switch config (nxos)
+    import_tasks: tasks/task-backupConfig.yaml
+  - name: Install Features for Core Switches
+    import_tasks: tasks/task-FeaturesCore.yaml

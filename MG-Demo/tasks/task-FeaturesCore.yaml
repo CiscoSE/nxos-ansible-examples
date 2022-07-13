@@ -1,0 +1,6 @@
+- name: Configure LLDP on Core Switches
+  cisco.nxos.nxos_feature:
+    feature: lldp
+    state: enabled
+  when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')
+    

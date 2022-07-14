@@ -5,7 +5,21 @@
   tasks:
   - name: Backup current switch config (nxos)
     import_tasks: tasks/task-backupConfig.yaml
+
+  - name: Set Host name
+    import_tasks: tasks/task-SetHostName.yaml
+
   - name: Install Features for Core Switches
     import_tasks: tasks/task-FeaturesCore.yaml
+
   - name: Install Features for Edge Switches
     import_tasks: tasks/task-FeaturesEdge.yaml
+
+  - name: Configure peer link for Core switches
+    import_tasks: tasks/task-PeerLinkCore.yaml
+
+  - name: Configure peer link for Edge switches
+    import_tasks: tasks/task-PeerLinkEdge.yaml
+  
+  - name: Configure VLANs
+    import_tasks: tasks/task-CreateVLANs.yaml

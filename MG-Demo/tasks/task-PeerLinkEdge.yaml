@@ -1,0 +1,47 @@
+- name: Setting Edge Variables for Peer Link
+  set_fact:
+    EdgeInterface1: Ethernet1/2
+    EdgeVPCportchannel: '10'
+    EdgeVPCDomain: '100'
+
+- name: VPC Domain Configuration for Edge
+  nxos_vpc:
+    domain: '{{ EdgeVPCDomain }}'
+    pkl_dest: '{{ peer }}'
+    pkl_src: '{{ inventory_hostname }}'
+    peer_gw: true
+    auto_recovery: true
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Enable Ethernet 1/2 and set mode to layer 2
+  nxos_interfaces:
+    config:
+    - name: '{{ EdgeInterface1 }}'
+      description: Edge Peer Link
+      enabled: true
+      mode: layer2
+    state: replaced
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Configure Port Channel for Edge Peer Link
+  nxos_lag_interfaces:
+    config:
+    - name: 'port-channel{{ EdgeVPCportchannel }}'
+      members: 
+      - member: '{{ EdgeInterface1 }}'
+    state: merged
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Configure Peer Link for Edge        
+  nxos_vpc_interface:
+    portchannel: '{{ EdgeVPCportchannel }}'
+    peer_link: yes
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+
+#- name: Configure '{{ interface1 }}' as spanning tree port type network
+#  nxos_config:
+#    lines:
+#    - spanning-tree port type network
+#    parents: 'port-channel{{ EdgeVPCportchannel }}'
+
+   

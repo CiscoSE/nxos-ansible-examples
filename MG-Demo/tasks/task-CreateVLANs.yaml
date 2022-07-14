@@ -1,0 +1,7 @@
+- name: Create VLAN 10
+  nxos_vlans:
+    config:
+    - vlan_id: 10
+      name: linuxVLAN
+      enabled: true
+    state: merged

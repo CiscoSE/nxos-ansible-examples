@@ -1,0 +1,48 @@
+- name: Setting Core Variables for Peer Link
+  set_fact:
+    coreInterface1: Ethernet1/2
+    coreVPCportchannel: '10'
+    coreVPCDomain: '100'
+
+- name: VPC Domain Configuration for Core
+  nxos_vpc:
+    domain: '{{ coreVPCDomain }}'
+    pkl_dest: '{{ peer }}'
+    pkl_src: '{{ inventory_hostname }}'
+    peer_gw: true
+    auto_recovery: true
+  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Enable Ethernet 1/2 and set mode to layer 2
+  nxos_interfaces:
+    config:
+    - name: '{{ coreInterface1 }}'
+      description: Core Peer Link
+      enabled: true
+      mode: layer2
+    state: merged
+  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Configure Port Channel for Core Peer Link
+  nxos_lag_interfaces:
+    config:
+    - name: 'port-channel{{ coreVPCportchannel }}'
+      members: 
+      - member: '{{ coreInterface1 }}'
+    state: merged
+  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Configure Peer Link for Core        
+  nxos_vpc_interface:
+    portchannel: '{{ coreVPCportchannel }}'
+    peer_link: yes
+  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
+
+- name: Set switch port to mode trunk for Core peer link nxos_interfaces
+  nxos_l2_interfaces:
+    config:
+      - name: 'port-channel{{ coreVPCportchannel }}'
+        mode: trunk
+    state: merged
+  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
+   

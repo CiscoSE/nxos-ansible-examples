@@ -1,0 +1,3 @@
+- name: 'Set Host Name for {{ switchName }}'
+  nxos_system:
+   hostname: '{{ switchName }}'

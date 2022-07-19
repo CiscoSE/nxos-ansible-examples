@@ -38,10 +38,12 @@
     peer_link: yes
   when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
 
-#- name: Configure '{{ interface1 }}' as spanning tree port type network
-#  nxos_config:
-#    lines:
-#    - spanning-tree port type network
-#    parents: 'port-channel{{ EdgeVPCportchannel }}'
+- name: Set switch port to mode trunk for Core peer link nxos_interfaces
+  nxos_l2_interfaces:
+    config:
+      - name: 'port-channel{{ coreVPCportchannel }}'
+        mode: trunk
+    state: merged
+  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
 
    

@@ -3,3 +3,5 @@
     backup: yes
   register: backup_nxos_location
   when: ansible_network_os == 'cisco.nxos.nxos'
+  tags:
+  - backup

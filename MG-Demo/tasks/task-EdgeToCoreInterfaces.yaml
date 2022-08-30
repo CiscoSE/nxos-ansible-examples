@@ -1,0 +1,33 @@
+- name: Setting Core Variables for interfaces from Core to Edge (Edge)
+  set_fact:
+    edgeLinkToCore: 'Ethernet1/3'
+    linkToCorePortChannel: '100'
+    LinkToCoreVPC: '100'
+  tags: [ core-edgeConnection ]
+
+- name: Configure Port Channel for Core / Edge Connections on Edge (Edge)
+  nxos_lag_interfaces:
+    config:
+    - name: 'port-channel{{ linkToCorePortChannel }}'
+      members: 
+      - member: '{{ edgeLinkToCore }}'
+    state: merged
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ core-edgeConnection ]
+
+- name: VPC for Core / Edge Communication (Edge)
+  nxos_vpc_interface:
+    portchannel: '{{ linkToCorePortChannel }}'
+    vpc: '{{ LinkToCoreVPC }}'
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ core-edgeConnection ]
+
+- name: Trunk Configuration for Core / Edge configuration (Edge)
+  nxos_l2_interfaces:
+   config:
+   - name: 'port-channel{{ linkToCorePortChannel }}'
+     trunk:
+      allowed_vlans: 10,11
+     mode: trunk
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ core-edgeConnection ]

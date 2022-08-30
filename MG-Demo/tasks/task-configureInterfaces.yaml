@@ -1,0 +1,47 @@
+#####################################
+# Ethernet 1/1 on nxosEdge1
+#####################################
+- name: Configured VLAN for Ethernet 1/1 on nxosEdge1 for Alpine1
+  cisco.nxos.nxos_l2_interfaces:
+    config:
+    - name: Ethernet1/1
+      access:
+        vlan: 10
+    state: replaced
+  when: (switchName == 'nxosEdge1') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ alpine1 ]
+
+- name: Enable Ethernet 1/1 on nxosEdge1 for alpine1
+  nxos_interfaces:
+    config:
+    - name: 'Ethernet1/1'
+      description: Alpine1 Management Interface
+      enabled: true
+      mode: layer2
+    state: merged
+  when: (switchName == 'nxosEdge1') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ alpine1 ]
+
+#####################################
+# Ethernet 1/1 on nxosEdge2
+#####################################
+- name: Configured VLAN for Ethernet 1/1 on nxosEdge1 for Alpine1
+  cisco.nxos.nxos_l2_interfaces:
+    config:
+    - name: Ethernet1/1
+      access:
+        vlan: 10
+    state: replaced
+  when: (switchName == 'nxosEdge1') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ alpine1 ]
+
+- name: Enable Ethernet 1/1 on nxosEdge2 for alpine1
+  nxos_interfaces:
+    config:
+    - name: 'Ethernet1/1'
+      description: Alpine1 Management Interface
+      enabled: true
+      mode: layer2
+    state: merged
+  when: (switchName == 'nxosEdge1') and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ alpine1 ]

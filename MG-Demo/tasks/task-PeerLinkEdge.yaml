@@ -41,9 +41,9 @@
 - name: Set switch port to mode trunk for Core peer link nxos_interfaces
   nxos_l2_interfaces:
     config:
-      - name: 'port-channel{{ coreVPCportchannel }}'
+      - name: 'port-channel{{ EdgeVPCportchannel }}'
         mode: trunk
     state: merged
-  when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
+  when: (role == 'Edge') and (ansible_network_os == 'cisco.nxos.nxos')
 
    

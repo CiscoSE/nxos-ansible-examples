@@ -23,3 +23,12 @@
   
   - name: Configure VLANs
     import_tasks: tasks/task-CreateVLANs.yaml
+
+  - name: Configure Core / Edge Uplinks (Edge)
+    import_tasks: tasks/task-EdgeToCoreInterfaces.yaml
+  
+  - name: Configure Core / Edge Uplinks (Core)
+    import_tasks: tasks/task-CoreToEdgeInterfaces.yaml
+
+  - name: Configure Host Interfaces
+    import_tasks: tasks/task-configureInterfaces.yaml

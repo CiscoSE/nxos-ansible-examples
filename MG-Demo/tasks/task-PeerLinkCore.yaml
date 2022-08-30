@@ -13,7 +13,7 @@
     auto_recovery: true
   when: (role == 'Core') and (ansible_network_os == 'cisco.nxos.nxos')
 
-- name: Enable Ethernet 1/2 and set mode to layer 2
+- name: Enable {{ coreInterface1 }} and set mode to layer 2
   nxos_interfaces:
     config:
     - name: '{{ coreInterface1 }}'

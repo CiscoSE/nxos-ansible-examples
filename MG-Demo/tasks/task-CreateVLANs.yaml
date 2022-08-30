@@ -20,6 +20,7 @@
       redirects: true
     state: merged
   when: (switchName == "nxosCore1") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vlan10 ]
 
 - name: Assign IP to VLAN 10 (Core2)
   nxos_l3_interfaces:
@@ -30,6 +31,7 @@
       redirects: true
     state: merged
   when: (switchName == "nxosCore2") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vlan10 ]
 
 - name: Assign IP to VLAN 11 (Core1)
   nxos_l3_interfaces:
@@ -40,6 +42,7 @@
       redirects: true
     state: merged
   when: (switchName == "nxosCore1") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vlan11 ]
 
 - name: Assign IP to VLAN 11 (Core2)
   nxos_l3_interfaces:
@@ -50,12 +53,20 @@
       redirects: true
     state: merged
   when: (switchName == "nxosCore2") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vlan11 ]
 
-- name: Enable interface VLAN 10 and 11 on Core switches
-  nxos_interfaces:
-    config:
-      - name: Vlan10
-        enabled: True
-      - name: Vlan11
-        enabled: True
+- name: Enable interface VLAN 10 on Core switches
+  nxos_config:
+    lines:
+      - interface vlan 10
+      - no shut
   when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vlanEnable,vlan10 ]
+
+- name: Enable interface VLAN 11 on Core switches
+  nxos_config:
+    lines:
+      - interface vlan 11
+      - no shut
+  when: (role == "Core") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vlanEnable,vlan11 ]

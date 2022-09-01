@@ -3,9 +3,11 @@
     feature: lldp
     state: enabled
   when: (role == "Edge") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ lldp, features ]
 
 - name: Configure VPC on Edge Switches
   cisco.nxos.nxos_feature:
     feature: vpc
     state: enabled
   when: (role == "Edge") and (ansible_network_os == 'cisco.nxos.nxos')
+  tags: [ vpc, features ]
